@@ -4,7 +4,7 @@ import atexit
 
 #PIN setup
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(4, GPIO.OUTPUT)
+GPIO.setup(4, GPIO.OUT)
 
 # Loop to send HIGH and LOW to the mentioned pin
 while True:
