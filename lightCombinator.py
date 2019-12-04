@@ -8,9 +8,9 @@ def clean_up():
     GPIO.cleanup()
 atexit.register(clean_up)
 
-redPin = 11  # Set to appropriate GPIO
-greenPin = 15  # Should be set in the
-bluePin = 13  # GPIO.BOARD format
+redPin = 17  # Set to appropriate GPIO
+greenPin = 27  # Should be set in the
+bluePin = 22  # GPIO.BOARD format
 
 
 def blink(pin):
