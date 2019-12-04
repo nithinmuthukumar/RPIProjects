@@ -1,137 +1,70 @@
 # Program asks for user input to determine color to shine.
 
 import time, sys
+from collections import namedtuple
 import RPi.GPIO as GPIO
+Color=namedtuple("Color",['r','g','b'])
+colorPins=Color(17,27,22)
+colors={"red":Color(1,0,0),"green":Color(0,1,0),"yellow":Color(0,1,1),"cyan":Color(1,1,0),"magenta":Color(1,0,1),"white":Color(1,1,1)}
+mode= {"on":1,"off":-1}
 
+echoPin=19
+trigPin=26
 
-redPin = 17  # Set to appropriate GPIO
-greenPin = 27  # Should be set in the
-bluePin = 22  # GPIO.BOARD format
+soundConst=170
 
+def action(color,m):
+    for p,pin in enumerate(colorPins):
+        GPIO.output(pin,[GPIO.HIGH,GPIO.LOW][::m][color[p]])
 
-def blink(pin):
-    GPIO.output(pin, GPIO.HIGH)
-
-
-def turnOff(pin):
-
-    GPIO.output(pin, GPIO.LOW)
-
-
-def redOn():
-    blink(redPin)
-
-
-def redOff():
-    turnOff(redPin)
-
-
-def greenOn():
-    blink(greenPin)
-
-
-def greenOff():
-    turnOff(greenPin)
-
-
-def blueOn():
-    blink(bluePin)
-
-
-def blueOff():
-    turnOff(bluePin)
-
-
-def yellowOn():
-    blink(redPin)
-    blink(greenPin)
-
-
-def yellowOff():
-    turnOff(redPin)
-    turnOff(greenPin)
-
-
-def cyanOn():
-    blink(greenPin)
-    blink(bluePin)
-
-
-def cyanOff():
-    turnOff(greenPin)
-    turnOff(bluePin)
-
-
-def magentaOn():
-    blink(redPin)
-    blink(bluePin)
-
-
-def magentaOff():
-    turnOff(redPin)
-    turnOff(bluePin)
-
-
-def whiteOn():
-    blink(redPin)
-    blink(greenPin)
-    blink(bluePin)
-
-
-def whiteOff():
-    turnOff(redPin)
-    turnOff(greenPin)
-    turnOff(bluePin)
-
-
-print("""Ensure the following GPIO connections: R-11, G-13, B-15
-Colors: Red, Green, Blue, Yellow, Cyan, Magenta, and White
-Use the format: color on/color off""")
 
 
 def main():
     GPIO.setmode(GPIO.BCM)
-    GPIO.setup(redPin, GPIO.OUT)
-    GPIO.setup(greenPin, GPIO.OUT)
-    GPIO.setup(bluePin, GPIO.OUT)
+    for pin in colorPins:
+        GPIO.setup(pin, GPIO.OUT)
+
+    GPIO.setup(trigPin,GPIO.OUT)
+    GPIO.setup(trigPin,GPIO.LOW)
+
+    GPIO.setup(echoPin,GPIO.IN)
+
+    time.sleep(0.1)
+
+    GPIO.output(trigPin,GPIO.HIGH)
+    time.sleep(0.00001)
+    GPIO.output(trigPin,GPIO.LOW)
+
+
+
+    print("""Ensure the following GPIO connections: R-11, G-13, B-15
+    Colors: red, green, blue, yellow, cyan, magenta, and white
+    Use the format: color on/color off""")
+
 
     while True:
-        cmd = input("-->")
+        while GPIO.input(echoPin) == GPIO.LOW:
+            pass
+        start = time.time()
 
-        if cmd == "red on":
-            redOn()
-        elif cmd == "red off":
-            redOff()
-        elif cmd == "green on":
-            greenOn()
-        elif cmd == "green off":
-            greenOff()
-        elif cmd == "blue on":
-            blueOn()
-        elif cmd == "blue off":
-            blueOff()
-        elif cmd == "yellow on":
-            yellowOn()
-        elif cmd == "yellow off":
-            yellowOff()
-        elif cmd == "cyan on":
-            cyanOn()
-        elif cmd == "cyan off":
-            cyanOff()
-        elif cmd == "magenta on":
-            magentaOn()
-        elif cmd == "magenta off":
-            magentaOff()
-        elif cmd == "white on":
-            whiteOn()
-        elif cmd == "white off":
-            whiteOff()
+        while GPIO.input(echoPin) == GPIO.HIGH:
+            pass
+        stop = time.time()
+
+        print((stop - start)*soundConst)
+
+        c,cmd = input("-->").split()
+        if c in colors and cmd in mode:
+            action(colors[c],mode[cmd])
         else:
-            print("Not a valid command")
+            print("Invalid command")
+
+
 
     return
 
-
-main()
+if __name__=='main':
+    main()
+    GPIO.cleanup()
 
 
