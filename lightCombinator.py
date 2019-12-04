@@ -13,7 +13,7 @@ pins={'r':17,'g':27,'b':22}
 for p in pins.values():
     GPIO.setup(p,GPIO.OUT)
 GPIO.output(pins['r'],GPIO.HIGH)
-time.sleep(1)
+time.sleep(5)
 GPIO.output(pins['r'], GPIO.LOW)
 
 
