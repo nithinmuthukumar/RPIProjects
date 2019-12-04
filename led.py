@@ -9,10 +9,10 @@ GPIO.setup(4, GPIO.OUT)
 # Loop to send HIGH and LOW to the mentioned pin
 while True:
     print("High")
-    GPIO.output(4,GPIO.HIGH)
+    GPIO.output(8,GPIO.HIGH)
     time.sleep(1)
     print("Low")
-    GPIO.output(4,GPIO.LOW)
+    GPIO.output(8,GPIO.LOW)
     time.sleep(1)
 
 #Garabage Cleaner
