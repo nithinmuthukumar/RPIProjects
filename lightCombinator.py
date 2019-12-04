@@ -2,6 +2,7 @@
 
 import time, sys
 from collections import namedtuple
+import atexit
 import RPi.GPIO as GPIO
 Color=namedtuple("Color",['r','g','b'])
 colorPins=Color(17,27,22)
@@ -60,11 +61,7 @@ def main():
             print("Invalid command")
 
 
-
-    return
-
-if __name__=='main':
-    main()
-    GPIO.cleanup()
+main()
+atexit.register(GPIO.cleanup)
 
 
