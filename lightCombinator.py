@@ -2,11 +2,7 @@
 
 import time, sys
 import RPi.GPIO as GPIO
-import atexit
 
-def clean_up():
-    GPIO.cleanup()
-atexit.register(clean_up)
 
 redPin = 17  # Set to appropriate GPIO
 greenPin = 27  # Should be set in the
