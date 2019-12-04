@@ -2,6 +2,11 @@
 
 import time, sys
 import RPi.GPIO as GPIO
+import atexit
+
+def clean_up():
+    GPIO.cleanup()
+atexit.register(clean_up)
 
 redPin = 11  # Set to appropriate GPIO
 greenPin = 15  # Should be set in the
@@ -94,7 +99,7 @@ Use the format: color on/color off""")
 
 def main():
     while True:
-        cmd = raw_input("-->")
+        cmd = input("-->")
 
         if cmd == "red on":
             redOn()
@@ -131,4 +136,5 @@ def main():
 
 
 main()
+
 
