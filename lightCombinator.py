@@ -10,7 +10,7 @@ GPIO.setmode(GPIO.BCM)
 
 pins={'r':17,'g':27,'b':22}
 
-for p in pins.keys():
+for p in pins.values():
     GPIO.setup(p,GPIO.OUT)
 GPIO.out(pins['r'],GPIO.HIGH)
 time.sleep(1)
