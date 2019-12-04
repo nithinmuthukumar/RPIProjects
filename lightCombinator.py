@@ -10,15 +10,11 @@ bluePin = 22  # GPIO.BOARD format
 
 
 def blink(pin):
-    GPIO.setmode(GPIO.BCM)
-
-    GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.HIGH)
 
 
 def turnOff(pin):
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(pin, GPIO.OUT)
+
     GPIO.output(pin, GPIO.LOW)
 
 
@@ -94,6 +90,11 @@ Use the format: color on/color off""")
 
 
 def main():
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(redPin, GPIO.OUT)
+    GPIO.setup(greenPin, GPIO.OUT)
+    GPIO.setup(bluePin, GPIO.OUT)
+
     while True:
         cmd = input("-->")
 
