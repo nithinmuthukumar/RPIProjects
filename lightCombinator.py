@@ -13,10 +13,10 @@ echoPin=19
 trigPin=26
 
 soundConst=170
-
+atexit.register(GPIO.cleanup)
 def action(color,m):
     for p,pin in enumerate(colorPins):
-        GPIO.output(pin,[GPIO.HIGH,GPIO.LOW][::m][color[p]])
+        GPIO.output(pin,[GPIO.LOW,GPIO.HIGH][::m][color[p]])
 
 
 
@@ -62,6 +62,6 @@ def main():
 
 
 main()
-atexit.register(GPIO.cleanup)
+
 
 
